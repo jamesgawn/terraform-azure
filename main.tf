@@ -3,6 +3,7 @@ terraform {
     azurerm = {
       source = "hashicorp/azurerm"
       version = "2.76.0"
+      features {}
     }
   }
   backend "azurerm" {
@@ -11,7 +12,6 @@ terraform {
     container_name       = "tfstate"
     key                  = "prod.terraform.tfstate"
   }
-  features {}
 }
 
 resource "azurerm_resource_group" "k8s-cluster" {
