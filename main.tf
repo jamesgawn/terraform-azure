@@ -13,3 +13,52 @@ terraform {
   }
 
 }
+
+resource "azurerm_resource_group" "k8s-cluster" {
+  name     = "k8s-cluster"
+  location = "UK South"
+}
+
+resource "azurerm_kubernetes_cluster" "k8s-cluster" {
+  name                = "k8s-cluster-gawn"
+  location            = azurerm_resource_group.k8s-cluster.location
+  resource_group_name = azurerm_resource_group.k8s-cluster.name
+  dns_prefix          = "k8s-cluster-gawn"
+  
+  load_balancer_sku   = "Basic"
+
+  default_node_pool {
+    name       = "default"
+    node_count = 1
+    vm_size    = "Standard_B2s"
+    enable-auto-scaling = true
+    min_count = 1
+    max_count = 3
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = {
+    Environment = "Production"
+  }
+}
+
+lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags, e.g. because a management agent
+      # updates these based on some ruleset managed elsewhere.
+      default_node_pool.node_count,
+    ]
+  }
+
+output "client_certificate" {
+  value = azurerm_kubernetes_cluster.example.kube_config.0.client_certificate
+}
+
+output "kube_config" {
+  value = azurerm_kubernetes_cluster.example.kube_config_raw
+
+  sensitive = true
+}
