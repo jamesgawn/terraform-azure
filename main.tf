@@ -25,13 +25,15 @@ resource "azurerm_kubernetes_cluster" "k8s-cluster" {
   resource_group_name = azurerm_resource_group.k8s-cluster.name
   dns_prefix          = "k8s-cluster-gawn"
   
-  load_balancer_sku   = "Basic"
+  network_profile {
+    load_balancer_sku   = "Basic"
+  }
 
   default_node_pool {
     name       = "default"
     node_count = 1
     vm_size    = "Standard_B2s"
-    enable-auto-scaling = true
+    enable_auto_scaling = true
     min_count = 1
     max_count = 3
   }
@@ -54,11 +56,11 @@ resource "azurerm_kubernetes_cluster" "k8s-cluster" {
 }
 
 output "client_certificate" {
-  value = azurerm_kubernetes_cluster.example.kube_config.0.client_certificate
+  value = azurerm_kubernetes_cluster.k8s-cluster.kube_config.0.client_certificate
 }
 
 output "kube_config" {
-  value = azurerm_kubernetes_cluster.example.kube_config_raw
+  value = azurerm_kubernetes_cluster.k8s-cluster.kube_config_raw
 
   sensitive = true
 }
