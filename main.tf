@@ -25,7 +25,7 @@ resource "azurerm_kubernetes_cluster" "k8s-cluster" {
   resource_group_name = azurerm_resource_group.k8s-cluster.name
   dns_prefix          = "k8s-cluster-gawn"
   
-  automated_channel_upgrade = "stable"
+  automatic_channel_upgrade = "stable"
 
   network_profile {
     network_plugin = "kubenet"
