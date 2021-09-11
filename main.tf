@@ -3,7 +3,6 @@ terraform {
     azurerm = {
       source = "hashicorp/azurerm"
       version = "2.76.0"
-      features {}
     }
   }
   backend "azurerm" {
@@ -11,6 +10,8 @@ terraform {
     storage_account_name = "gawnbackend"
     container_name       = "tfstate"
     key                  = "prod.terraform.tfstate"
+
+    features {}
   }
 }
 
