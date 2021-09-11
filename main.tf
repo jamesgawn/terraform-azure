@@ -6,12 +6,15 @@ terraform {
     }
   }
   backend "azurerm" {
-    features {}
     resource_group_name  = "terraform"
     storage_account_name = "gawnbackend"
     container_name       = "tfstate"
     key                  = "prod.terraform.tfstate"
   }
+}
+
+provider "azurerm" {
+  features {}
 }
 
 resource "azurerm_resource_group" "k8s-cluster" {
