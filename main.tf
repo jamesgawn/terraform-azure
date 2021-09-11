@@ -53,7 +53,7 @@ resource "azurerm_kubernetes_cluster" "k8s-cluster" {
     ignore_changes = [
       # Ignore changes to tags, e.g. because a management agent
       # updates these based on some ruleset managed elsewhere.
-      default_node_pool.node_count,
+      default_node_pool[0].node_count,
     ]
   }
 }
