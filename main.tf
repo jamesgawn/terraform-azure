@@ -11,7 +11,7 @@ terraform {
     container_name       = "tfstate"
     key                  = "prod.terraform.tfstate"
   }
-
+  features {}
 }
 
 resource "azurerm_resource_group" "k8s-cluster" {
